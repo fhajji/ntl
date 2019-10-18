@@ -6,10 +6,8 @@
 #include <NTL/tools.h>
 #include <NTL/thread.h>
 
-#if (NTL_CXX_STANDARD >= 2011)
-// ensure we get std::forward
-#include <utility>
-#endif
+// NOTE: <NTL/tools.h> includes <utility>, which provides std::forward
+
 
 
 NTL_OPEN_NNS
@@ -712,7 +710,7 @@ T* MakeRaw(Args&&... args) {
    T *p = NTL_NEW_OP T(std::forward<Args>(args)...); 
    if (!p) MemoryError();
    return p;
-};
+}
 
 #endif
 

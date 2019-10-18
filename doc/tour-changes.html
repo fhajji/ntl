@@ -18,6 +18,104 @@ A Tour of NTL: Summary of Changes
 
 <p><hr><p>
 <h3>
+2019.10.08: Changes between NTL 11.4.0 and 11.4.1
+</h3>
+
+<ul>
+<li>
+Fixed bug in new <tt>NTL_EXEC_DIVIDE</tt> that 
+could manifest itself when <tt>NTL_THREAD_BOOST=off</tt>.
+Existing code that does not explicitly use this feature
+should not be affected by this bug.
+<li>
+Fixed some namespace visibility issues in the TLS hack macros.
+</ul>
+
+
+<p><hr><p>
+<h3>
+2019.09.24: Changes between NTL 11.3.4 and 11.4.0
+</h3>
+
+<ul>
+<li>
+The Schoenhage-Strassen FFT for both <tt>ZZ_pX</tt>
+and <tt>ZZX</tt> is now fully "thread boosted".
+Here is a snapshot of performance, based on 
+multiplying two polynomials of degree less than 8000
+with 8000-bit coefficients.
+For <tt>ZZ_pX</tt>:
+<pre>
+    # threads   time (ms)   effectiveness
+    1           606   
+    2           310         97%
+    4           168         90%
+    8           103         74%
+</pre>
+For <tt>ZZX</tt>:
+<pre>
+    # threads   time (ms)   effectiveness
+    1           461 
+    2           247         93%
+    4           144         80%
+    8            96         60%
+</pre>
+
+<p> <li>
+Introduced new tools for applying thread pools to divide and conquer 
+algorithms.
+See <tt>NTL_EXEC_DIVIDE</tt> in 
+<a href="BasicThreadPool.cpp.html">BasicThreadPool.txt</a>.
+
+<li>
+Fixed a few other minor issues.
+
+</ul>
+
+
+
+<p><hr><p>
+<h3>
+2019.09.07: Changes between NTL 11.3.3 and 11.3.4
+</h3>
+
+<ul>
+<li>
+Changed NTL's build system so that if <tt>NTL_THREADS=on</tt>
+(which is the default) and <tt>SHARED=on</tt> 
+(which is not the default), NTL's makefile will now pass
+<tt>-lpthread</tt> to <tt>libtool</tt> when it builds the library.
+On most platforms, this should allow users to forgo passing 
+the <tt>-pthread</tt> option to their compiler when linking.
+
+<li>
+Made the build system's check of correct multithreading behavior
+a bit more robust.
+</ul>
+
+<p><hr><p>
+<h3>
+2019.09.02: Changes between NTL 11.3.2 and 11.3.3
+</h3>
+
+<ul>
+<li>
+Changed "TLS hack" implementation to use fewer pthread keys
+(I did not realize these were a "scarce resource").
+
+<li>
+Implemented <tt>xdouble</tt> to <tt>double</tt> conversion to be more
+efficient for exponents of large magnitude.
+
+<li>
+Changed some internal interfaces (for <tt>FFTRoundUp</tt>) to
+be simpler and (in rare circumstances) to yield somewhat
+more efficient code.
+</ul>
+
+
+<p><hr><p>
+<h3>
 2018.11.15: Changes between NTL 11.3.1 and 11.3.2
 </h3>
 
